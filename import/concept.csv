@@ -1,4 +1,4 @@
-concept_code:ID(Concept),concept_name:string,:LABEL
+conceptId:ID(Concept),name:string,:LABEL
 TS0,密集调研,Concept
 TS1,南北船合并,Concept
 TS2,5G,Concept
