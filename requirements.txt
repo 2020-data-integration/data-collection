@@ -3,3 +3,4 @@ pandas
 jupyter
 python-Levenshtein==0.12.0
 tqdm
+influxdb==5.3.0
