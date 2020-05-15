@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: finminer
 spec:
-  schedule: "17 10 * * *"     # CST 04:00
+  schedule: "00 16 * * *"     # CST 00:00
   jobTemplate:
     spec:
       template:
@@ -27,5 +27,5 @@ spec:
                 cpu: "0.25"
               limits:
                 memory: "200M"
-                cpu: "5"
+                cpu: "0.5"
           restartPolicy: OnFailure
