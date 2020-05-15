@@ -1,4 +1,0 @@
-tushare
-pandas
-tqdm
-influxdb==5.3.0

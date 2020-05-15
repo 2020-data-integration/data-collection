@@ -4,6 +4,6 @@ WORKDIR /usr/app
 
 COPY ./requirements.txt ./
 RUN pip install -r requirements.txt
-COPY ./ ./
+COPY stock/cronjob.py cronjob.py
 
 ENTRYPOINT ["python", "cronjob.py"]

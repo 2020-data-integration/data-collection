@@ -1,0 +1,31 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: finminer
+spec:
+  schedule: "17 10 * * *"     # CST 04:00
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: finminer
+            image: greenw00d/finminer-stock:latest
+            imagePullPolicy: Always
+            env:
+              - name: INFLUX_HOST
+                value: INFLUX_HOST_V
+              - name: TS_TOKEN
+                value: TS_TOKEN_V
+              - name: USERNAME
+                value: USERNAME_V
+              - name: PASSWORD
+                value: PASSWORD_V
+            resources:
+              requests:
+                memory: "100M"
+                cpu: "0.25"
+              limits:
+                memory: "200M"
+                cpu: "5"
+          restartPolicy: OnFailure
