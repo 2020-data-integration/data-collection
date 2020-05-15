@@ -25,6 +25,8 @@ def main():
     df = pro.daily(trade_date=yesterday)
     df['trade_date'] = pd.to_datetime(df['trade_date'])
 
+    print('Got data for {}'.format(yesterday))
+
     js = df.to_dict('records')
     processed_js = []
     for record in js:
@@ -40,6 +42,8 @@ def main():
         })
     
     client.write_points(processed_js)
+
+    print('Successfully inserted')
 
 if __name__ == '__main__':
     main()
