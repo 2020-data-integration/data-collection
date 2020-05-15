@@ -6,7 +6,7 @@ on:
 
 env:
   IMAGE: finminer-stock
-  DIR: ./stock/
+  DIR: stock
 
 jobs:
   build:
@@ -22,7 +22,7 @@ jobs:
       with:
         image: ${{ secrets.DOCKER_USERNAME }}/$IMAGE
         tag: latest
-        dockerfile: dockerfile
+        dockerfile: $DIR/dockerfile
         registry: docker.io
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
