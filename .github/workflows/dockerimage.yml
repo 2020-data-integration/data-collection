@@ -6,7 +6,7 @@ on:
 
 env:
   IMAGE: finminer-stock
-  DIR: stock
+  DIR: ./stock/
 
 jobs:
   build:
