@@ -1,18 +1,29 @@
-name: Docker Image CI
+name: Build and Push to DockHub
 
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
+
+env:
+  IMAGE: finminer-stock
+  DIR: stock
 
 jobs:
-
   build:
-
+    name: build and push
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - name: Checkout
+      uses: actions/checkout@v2
+    
+    - uses: mr-smithers-excellent/docker-build-push@v3
+      name: Build & push Docker image
+      with:
+        image: ${{ secrets.DOCKER_USERNAME }}/$IMAGE
+        tag: latest
+        dockerfile: dockerfile
+        registry: docker.io
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        directory: $DIR
