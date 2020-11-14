@@ -4,12 +4,16 @@ from influxdb import InfluxDBClient
 from datetime import datetime, timedelta
 from tqdm import tqdm
 import os
+import logging
 
-ts_token = os.getenv('TS_TOKEN')
-influx_host = os.getenv('INFLUX_HOST')
-port = int(os.getenv('PORT', 8086))
-username = os.getenv('USERNAME')
-password = os.getenv('PASSWORD')
+logging.basicConfig(level=logging.INFO, filename="/usr/app/integration/cronjob/logfile", filemode="a+",
+                    format="%(asctime)-15s %(levelname)-8s %(message)s")
+
+ts_token = '53cd3b985c649c978160c6ec04bce24f4fbd2ebcb4673e8f2fba9a43'
+influx_host = '47.101.33.219'
+port = 8086
+username = 'influx'
+password = '2020liufeng'
 db = 'stock'
 
 ts.set_token(ts_token)
@@ -19,14 +23,24 @@ client = InfluxDBClient(influx_host, port, username, password, database=db)
 
 now = datetime.utcnow() + timedelta(hours=8) - timedelta(days=1)
 yesterday = now.strftime("%Y%m%d")
+yesterday_dash = now.strftime("%Y-%m-%d")
+
+def test_exists(measurement):
+    res = client.query("select * from {} where time='{}' limit 1".format(measurement, yesterday_dash))
+    return res
 
 
 def stock_price():
     measurement = 'stock'
+
+    if test_exists(measurement):
+        logging.info('already exists stock price data for {}'.format(yesterday_dash))
+        return
+
     df = pro.daily(trade_date=yesterday)
     df['trade_date'] = pd.to_datetime(df['trade_date'])
 
-    print('Got stock price data for {}'.format(yesterday))
+    logging.info('Got stock price data for {} with len: {}'.format(yesterday_dash, len(df)))
 
     js = df.to_dict('records')
     processed_js = []
@@ -44,14 +58,19 @@ def stock_price():
     
     client.write_points(processed_js)
 
-    print('Successfully inserted')
+    logging.info('Successfully inserted')
 
 def ann():
     measurement = 'announcement'
+
+    if test_exists(measurement):
+        logging.info('already exists announcement price data for {}'.format(yesterday_dash))
+        return
+
     df = pro.anns(ann_date=yesterday)
     df['ann_date'] = pd.to_datetime(df['ann_date'])
 
-    print('Got announcement data for {}'.format(yesterday))
+    logging.info('Got announcement data for {} with len: {}'.format(yesterday_dash, len(df)))
 
     js = df.to_dict('records')
     processed_js = []
@@ -69,7 +88,7 @@ def ann():
     
     client.write_points(processed_js)
 
-    print('Successfully inserted')
+    logging.info('Successfully inserted')
 
 
 def main():
