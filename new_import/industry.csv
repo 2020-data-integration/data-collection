@@ -1,0 +1,7 @@
+industryId:ID(Industry),name:string,:Label
+0,化工行业,Industry
+1,酒店旅游,Industry
+2,金融行业,Industry
+3,电子信息,Industry
+4,有色金属,Industry
+5,房地产,Industry

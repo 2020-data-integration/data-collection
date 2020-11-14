@@ -1,11 +1,9 @@
-./neo4j-admin import \
+neo4j-admin import \
     --id-type=STRING \
     --skip-duplicate-nodes=true \
     --ignore-empty-strings=true \
-    --nodes=import/company.csv \
-    --nodes=import/concept.csv \
-    --nodes=import/holder.csv \
-    --nodes=import/manager.csv \
-    --relationships=import/company_concept.csv \
-    --relationships=import/holder_company.csv \
-    --relationships=import/manager_company.csv
+    --nodes=new_import/company.csv \
+    --nodes=new_import/industry.csv \
+    --nodes=new_import/holder.csv \
+    --relationships=new_import/industry_company.csv \
+    --relationships=new_import/holder_company.csv \
