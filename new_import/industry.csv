@@ -1,4 +1,4 @@
-industryId:ID(Industry),name:string,:Label
+industryId:ID(Industry),name:string,:LABEL
 0,化工行业,Industry
 1,酒店旅游,Industry
 2,金融行业,Industry
